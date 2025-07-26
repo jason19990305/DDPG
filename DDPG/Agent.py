@@ -35,6 +35,7 @@ class Agent():
 
         # other
         self.env = env
+        self.action_max = env.action_space.high[0]
         self.replay_buffer = ReplayBuffer(args)
 
         # Actor-Critic
@@ -59,7 +60,7 @@ class Agent():
             a = Normal(a,self.var).sample()            
             a = torch.clamp(a,-1,1)
             
-        return a.cpu().numpy().flatten()
+        return a.cpu().numpy().flatten() 
 
     def evaluate_action(self,state):
 

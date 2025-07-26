@@ -9,7 +9,7 @@ from DDPG.Agent import Agent
 class main():
     def __init__(self,args):
         env_name = 'Pendulum-v1'
-        env = gym.make('Pendulum-v1')
+        env = gym.make(env_name)
         num_states = env.observation_space.shape[0]
         num_actions = env.action_space.shape[0]
         print(num_actions)
@@ -18,6 +18,7 @@ class main():
         # args
         args.num_actions = num_actions
         args.num_states = num_states
+        args.action_max = env.action_space.high[0]  # Pendulum action space is continuous, so we need to normalize it
 
 
         # print args 

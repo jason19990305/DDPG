@@ -2,15 +2,14 @@ import torch.nn.functional as F
 import torch.nn as nn 
 import torch
 
-def orthogonal_init(layer, gain=1.0): # Trick : Orthogonal Initialization
-    nn.init.orthogonal_(layer.weight, gain=gain)
-    nn.init.constant_(layer.bias, 0)
+    
 
 class Actor(nn.Module):
     def __init__(self,args,hidden_layers=[64,64]):
         super(Actor, self).__init__()
         self.num_states = args.num_states
         self.num_actions = args.num_actions
+        self.action_max = args.action_max 
         # add in list
         hidden_layers.insert(0,self.num_states) # first layer
         hidden_layers.append(self.num_actions) # last layer
@@ -24,8 +23,6 @@ class Actor(nn.Module):
             layer = nn.Linear(input_num,output_num)
             
             layer_list.append(layer)
-            orthogonal_init(layer_list[-1]) 
-        orthogonal_init(layer_list[-1], gain=0.01)
 
         # put in ModuleList
         self.layers = nn.ModuleList(layer_list)
@@ -36,7 +33,7 @@ class Actor(nn.Module):
 
         for layer in self.layers:
             s = self.tanh(layer(s))
-        return s
+        return s * self.action_max
 
 
 class Critic(nn.Module):
@@ -58,7 +55,6 @@ class Critic(nn.Module):
             layer = nn.Linear(input_num,output_num)
             
             layer_list.append(layer)
-            orthogonal_init(layer_list[-1])
         # put in ModuleList
         self.layers = nn.ModuleList(layer_list)
         self.tanh = nn.Tanh()
