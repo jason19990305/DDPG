@@ -75,7 +75,7 @@ class Agent():
         times = 10
         evaluate_reward = 0
         for i in range(times):
-            s = env.reset()[0]
+            s, info = env.reset()
             
             done = False
             episode_reward = 0
@@ -110,7 +110,8 @@ class Agent():
             while True:
                 a = self.choose_action(s)
                 s_, r, done , truncated , _ = self.env.step(a)
-                
+                done = done or truncated
+
 
                 # storage data
                 self.replay_buffer.store(s, a, [r], s_, done)
