@@ -28,7 +28,7 @@ class main():
         print("---------------")
 
         # create agent
-        hidden_layer_num_list = [256,256]
+        hidden_layer_num_list = [64,64]
         agent = Agent(args , env , hidden_layer_num_list)
 
         # trainning
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     parser.add_argument("--batch_size", type=int, default=32, help="Batch size")
     parser.add_argument("--buffer_size", type=int, default=int(10000), help="Learning rate of actor")
     parser.add_argument("--max_train_steps", type=int, default=int(3e4), help=" Maximum number of training steps")
-    parser.add_argument("--evaluate_freq_steps", type=float, default=2e3, help="Evaluate the policy every 'evaluate_freq' steps")
+    parser.add_argument("--evaluate_freq_steps", type=float, default=2e3, help="Evaluate the policy every 'evaluate_freq_steps' steps")
     args = parser.parse_args()
 
     main(args)

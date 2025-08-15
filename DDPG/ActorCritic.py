@@ -33,6 +33,7 @@ class Actor(nn.Module):
 
         for layer in self.layers:
             s = self.tanh(layer(s))
+            
         return s * self.action_max
 
 
